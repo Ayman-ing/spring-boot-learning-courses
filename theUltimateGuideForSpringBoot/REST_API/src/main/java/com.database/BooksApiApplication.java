@@ -5,11 +5,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 
-public class DatabasePostgresqlApplication  {
+public class BooksApiApplication {
 
 	public static void main(String[] args) {
 
-		SpringApplication.run(DatabasePostgresqlApplication.class, args);
+		SpringApplication.run(BooksApiApplication.class, args);
 	}
 
 

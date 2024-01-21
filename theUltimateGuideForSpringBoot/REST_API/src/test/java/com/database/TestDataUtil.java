@@ -1,4 +1,6 @@
 package com.database;
+import com.database.domain.dto.AuthorDto;
+import com.database.domain.dto.BookDto;
 import com.database.domain.entities.AuthorEntity;
 import com.database.domain.entities.BookEntity;
 
@@ -37,7 +39,7 @@ public final class TestDataUtil {
         return BookEntity.builder()
                 .isbn("978-1-2345-6789-0")
                 .title("The Shadow in the Attic")
-                .authorEntity(authorEntity)
+                .author(authorEntity)
                 .build();
     }
 
@@ -45,7 +47,7 @@ public final class TestDataUtil {
         return BookEntity.builder()
                 .isbn("978-1-2345-6789-1")
                 .title("Beyond the Horizon")
-                .authorEntity(authorEntity)
+                .author(authorEntity)
                 .build();
     }
 
@@ -53,7 +55,16 @@ public final class TestDataUtil {
         return BookEntity.builder()
                 .isbn("978-1-2345-6789-2")
                 .title("The Last Ember")
-                .authorEntity(authorEntity)
+                .author(authorEntity)
                 .build();
     }
+    public static BookDto createTestBookDtoA(final AuthorDto author) {
+        return BookDto.builder()
+                .isbn("978-1-2345-6789-2")
+                .title("The Last Ember")
+                .author(author)
+                .build();
+    }
+
+
 }
