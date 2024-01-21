@@ -1,0 +1,11 @@
+version: '4.26.1'
+
+services:
+
+  db:
+    image: postgres
+    ports:
+      - "5332:5432"
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: changemeinprod!
