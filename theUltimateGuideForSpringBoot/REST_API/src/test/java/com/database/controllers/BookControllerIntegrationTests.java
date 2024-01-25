@@ -2,6 +2,7 @@ package com.database.controllers;
 
 import com.database.TestDataUtil;
 import com.database.domain.dto.BookDto;
+import com.database.domain.entities.AuthorEntity;
 import com.database.domain.entities.BookEntity;
 import com.database.services.BookService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -71,5 +72,33 @@ public class BookControllerIntegrationTests {
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].title").value("The Shadow in the Attic"));
 
     }
+
+    @Test
+    public void testThatGetBooksSuccessfullyReturnsHttp200WhenBookExist() throws Exception {
+        BookEntity testBookA = TestDataUtil.createTestBookA(null);
+        bookService.createBook(testBookA.getIsbn(),testBookA);
+        mockMvc.perform(MockMvcRequestBuilders.get("/books/"+  testBookA.getIsbn())
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk());
+    }
+    @Test
+    public void testThatGetBooksSuccessfullyReturnsHttp404WhenBookNotExist() throws Exception {
+        BookEntity testBookA = TestDataUtil.createTestBookA(null);
+        bookService.createBook(testBookA.getIsbn(),testBookA);
+        mockMvc.perform(MockMvcRequestBuilders.get("/books/99")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isNotFound());
+    }
+    @Test
+    public void testThatGetAuthorReturnsAuthorWhenAuthorExist() throws Exception{
+        BookEntity testBookA = TestDataUtil.createTestBookA(null);
+        bookService.createBook(testBookA.getIsbn(),testBookA);
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/books/" + testBookA.getIsbn())
+                        .contentType(MediaType.APPLICATION_JSON)
+                ).andExpect(MockMvcResultMatchers.jsonPath("$.isbn").value("978-1-2345-6789-0"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.title").value("The Shadow in the Attic"));
+    }
+
 
 }

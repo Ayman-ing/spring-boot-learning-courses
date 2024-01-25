@@ -21,7 +21,7 @@ public final class TestDataUtil {
 
     public static AuthorEntity createTestAuthorB() {
         return AuthorEntity.builder()
-                .id(2L)
+                .id(99L)
                 .name("Thomas Cronin")
                 .age(44)
                 .build();
