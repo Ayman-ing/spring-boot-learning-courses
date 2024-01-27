@@ -1,8 +1,6 @@
 package com.database.controllers;
 
-import com.database.domain.dto.AuthorDto;
 import com.database.domain.dto.BookDto;
-import com.database.domain.entities.AuthorEntity;
 import com.database.domain.entities.BookEntity;
 import com.database.mappers.Mapper;
 import com.database.services.BookService;
@@ -26,11 +24,17 @@ public class BookController {
     }
 
     @PutMapping(path="/books/{isbn}")
-    public ResponseEntity<BookDto> createBook(@PathVariable("isbn") String isbn, @RequestBody BookDto bookDto){
+    public ResponseEntity<BookDto> createUpdateBook(@PathVariable("isbn") String isbn, @RequestBody BookDto bookDto){
         BookEntity bookEntity =bookMapper.mapFrom(bookDto);
-        BookEntity savedBookEntity= bookService.createBook(isbn,bookEntity);
-        return new ResponseEntity<>(bookMapper.mapTo(savedBookEntity), HttpStatus.CREATED);
-
+        boolean bookExists = bookService.isExists(isbn);
+        BookEntity savedBookEntity= bookService.createUpdateBook(isbn,bookEntity);
+        if (bookExists){
+            //update
+            return new ResponseEntity<>(bookMapper.mapTo(savedBookEntity), HttpStatus.OK);
+        } else {
+            //create
+            return new ResponseEntity<>(bookMapper.mapTo(savedBookEntity), HttpStatus.CREATED);
+        }
     }
     @GetMapping(path="/books")
     public List<BookDto> listBooks(){
@@ -48,6 +52,7 @@ public class BookController {
         }).orElse( new ResponseEntity<>(HttpStatus.NOT_FOUND));
 
     }
+
 
 
 }
