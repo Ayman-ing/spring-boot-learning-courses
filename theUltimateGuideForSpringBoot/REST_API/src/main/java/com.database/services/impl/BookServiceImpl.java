@@ -4,6 +4,8 @@ import com.database.domain.entities.AuthorEntity;
 import com.database.domain.entities.BookEntity;
 import com.database.repositories.BookRepository;
 import com.database.services.BookService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,6 +29,11 @@ public class BookServiceImpl implements BookService {
     public List<BookEntity> findAll() {
         return StreamSupport.stream(bookRepository.findAll().spliterator(),false)
                     .collect(Collectors.toList());
+    }
+
+    @Override
+    public Page<BookEntity> findAll(Pageable pageable) {
+        return bookRepository.findAll(pageable);
     }
 
     @Override
